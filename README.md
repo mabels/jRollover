@@ -1,8 +1,12 @@
+# jRollover #
+
 This is a rollover carousel jquery plugin.
 
 Special Thanks to bottegaveneta and Sinnerschrader
 
 This plugin allows to build a endless rollover 
+
+---
 
 This is the JS Api
 
@@ -15,18 +19,18 @@ This is the JS Api
     $(".mynext").click(function() { console.log("myNext"); $('.scrollableItems').trigger("jRollover.stepNext") })
     $(".myprev").click(function() { console.log("myPrev"); $('.scrollableItems').trigger("jRollover.stepPrev") })
 
-
+---
 
 This is the HTML 
-<div class="scrollableItems" id="eins">
-  <a class="prev" href="javascript://">Previous</a>
-  <a class="next" href="javascript://">Next</a>
-  <div class="frame" style="width:810px;height:200px;" >
-    <ul class="window">
-      <li class="items">
-        <img src="http://media.bottegaveneta.com/images/library/01dfa2277f6edeef30669ac0c24401ef5ba1473b-1.jpg" height="473" width="810"> 
-      </li>
-    </ul>
-  </div>
-</div>
-                                                                        
+
+    <div class="scrollableItems" id="one">
+      <a class="prev" href="javascript://">Previous</a>
+      <a class="next" href="javascript://">Next</a>
+      <div class="frame" style="width:810px;height:200px;" >
+        <ul class="window">
+          <li class="items">
+            <img src="path/to/image.png" height="473" width="810" alt="" /> 
+          </li>
+        </ul>
+      </div>
+    </div>
