@@ -1,5 +1,6 @@
 /*
  * Use It and don't complain
+ * THX to Sinnerschrader
  */
 (function($) { 
 
