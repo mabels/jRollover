@@ -4,7 +4,7 @@
  */
 (function($) { 
 
-  var Carousel = function(node, option) {
+  var Rollover = function(node, option) {
 //console.log("construct", this);
     this.base = node
     this.option = option || {}
@@ -27,15 +27,15 @@
         dir()
       }
     }
-    node.bind("jCarousel.stepNext", _click(function() { self.next() }))
-    node.bind("jCarousel.stepPrev", _click(function() { self.prev() }))
+    node.bind("jRollover.stepNext", _click(function() { self.next() }))
+    node.bind("jRollover.stepPrev", _click(function() { self.prev() }))
     node.find('.next').click(_click(function() { self.next() }))
     node.find('.prev').click(_click(function() { self.prev() }))
 
     this.setup()
   }
 
-  Carousel.prototype.setup = function() {
+  Rollover.prototype.setup = function() {
       var self = this
       this.jq_items = this.list.find('>li').css('position', 'absolute')
       this.items = []
@@ -112,10 +112,10 @@
         }
         this.base.fadeIn('fast')
       }
-      this.base.trigger("jCarousel.ready", this.nowVisible())
+      this.base.trigger("jRollover.ready", this.nowVisible())
     }
 
-  Carousel.prototype.nowVisible = function() {
+  Rollover.prototype.nowVisible = function() {
     var window_margin = this.list.css("margin-left").replace('-', "");
     for(var i = this.items.length-1; i>= 0; --i) {
       var left = this.items[i].css('left').replace('-', "")
@@ -127,31 +127,31 @@
     return null;
   }
 
-  Carousel.prototype.prev = function() {
+  Rollover.prototype.prev = function() {
     if (this.items.length <= this.visible_items) { return }
     var prev = ((this.first()+this.items.length)-1)%this.items.length
     var left = parseInt(this.items[this.first()].css('left'),10)-this.item_width
     this.items[prev].css('left', left)
-//  console.log('Carousel.prev:click:'+prev+":"+left)
+//  console.log('Rollover.prev:click:'+prev+":"+left)
     this.items_first = prev 
-    this.base.trigger("jCarousel.Prev");
+    this.base.trigger("jRollover.Prev");
     var self = this;
-    this.direction(+1, function() { self.base.trigger("jCarousel.nowVisible", self.nowVisible()); })
+    this.direction(+1, function() { self.base.trigger("jRollover.nowVisible", self.nowVisible()); })
   }
 
-  Carousel.prototype.next = function() {
+  Rollover.prototype.next = function() {
     if (this.items.length <= this.visible_items) { return }
     var next = (this.first()+this.visible_items)%this.items.length
     var left = parseInt(this.items[this.last()].css('left'),10)+this.item_width
     this.items[next].css('left', left + 'px')
-//  console.log('Carousel.next:click:'+next+":"+this.last()+":"+left)
+//  console.log('Rollover.next:click:'+next+":"+this.last()+":"+left)
     this.items_first = (this.first()+1)%this.items.length
-    this.base.trigger("jCarousel.Next");
+    this.base.trigger("jRollover.Next");
     var self = this;
-    this.direction(-1, function() { self.base.trigger("jCarousel.nowVisible", self.nowVisible()); }) 
+    this.direction(-1, function() { self.base.trigger("jRollover.nowVisible", self.nowVisible()); }) 
   }
 
-  Carousel.prototype.direction = function(direction, completed) {
+  Rollover.prototype.direction = function(direction, completed) {
     var left = parseInt(this.list.css('margin-left'), 10)
     var self = this
     this.list.animate({"margin-left": left+(direction*this.item_width)+"px"}, 
@@ -159,18 +159,18 @@
       function(){  self.sliding = false; completed && completed() })
   }
 
-  Carousel.prototype.first = function() {
+  Rollover.prototype.first = function() {
     return this.items_first
   }
-  Carousel.prototype.last = function() {
-//console.log("Carousel.prototype.last:",this.items_first,this.visible_items,this.items.length);
+  Rollover.prototype.last = function() {
+//console.log("Rollover.prototype.last:",this.items_first,this.visible_items,this.items.length);
     return (this.items_first+this.visible_items-1)%this.items.length
   }
 
-  $.fn.jCarousel = function(option) {
+  $.fn.jRollover = function(option) {
     $(this).each(function() {
 //console.log("create carousel on:", $(this));
-      new Carousel($(this), option)
+      new Rollover($(this), option)
     })
     return this;
   }

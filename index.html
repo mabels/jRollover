@@ -202,20 +202,20 @@ http://world.bottegaveneta.com/default/stories/gallery-mens-spring-summer-2012-p
 <script type="application/javascript" id="CacheFuck"></script>
 
 <script type="application/javascript">
-$("#CacheFuck").attr("src", "jCarousel.js?"+Math.random());
+$("#CacheFuck").attr("src", "jRollover.js?"+Math.random());
 setTimeout(function() {
-  if ($('.scrollableItems').jCarousel) {
+  if ($('.scrollableItems').jRollover) {
     $('.scrollableItems')
-      .bind("jCarousel.ready", function(e, o) { console.log("ready", $(this).attr("id"), o) })
-      .jCarousel() 
-      .bind("jCarousel.Next", function() { console.log("clicked-next", $(this).attr("id")) })
-      .bind("jCarousel.Prev", function() { console.log("clicked-prev", $(this).attr("id")) })
-      .bind("jCarousel.nowVisible", function(e, o) { console.log("nowVisible", $(this).attr("id"), o) })
-    $(".mynext").click(function() { console.log("myNext"); $('.scrollableItems').trigger("jCarousel.stepNext") })
-    $(".myprev").click(function() { console.log("myPrev"); $('.scrollableItems').trigger("jCarousel.stepPrev") })
-    console.log("loaded jCarousel");
+      .bind("jRollover.ready", function(e, o) { console.log("ready", $(this).attr("id"), o) })
+      .jRollover() 
+      .bind("jRollover.Next", function() { console.log("clicked-next", $(this).attr("id")) })
+      .bind("jRollover.Prev", function() { console.log("clicked-prev", $(this).attr("id")) })
+      .bind("jRollover.nowVisible", function(e, o) { console.log("nowVisible", $(this).attr("id"), o) })
+    $(".mynext").click(function() { console.log("myNext"); $('.scrollableItems').trigger("jRollover.stepNext") })
+    $(".myprev").click(function() { console.log("myPrev"); $('.scrollableItems').trigger("jRollover.stepPrev") })
+    console.log("loaded jRollover");
   } else {
-    console.log("waiting jCarousel");
+    console.log("waiting jRollover");
   }
 }, 200);
 </script>
