@@ -31,7 +31,23 @@
     node.bind("jRollover.stepPrev", _click(function() { self.prev() }))
     node.find('.next').click(_click(function() { self.next() }))
     node.find('.prev').click(_click(function() { self.prev() }))
-
+    node.bind("jRollover.goto", function(e, item) { 
+      for(var i = self.items.length - 1; i >= 0; --i) {
+        if (item === self.items[i][0]) {
+          var current = -1*parseInt(self.list.css("margin-left"), 10);
+          var goto = parseInt($(item).css('left'), 10);
+          var steps = ((goto - current)/self.item_width);
+          self.items_first += steps;
+          if (self.items_first >= 0) {
+            self.items_first = self.items_first % self.items.length;
+          } else {
+            self.items_first = self.items.length+(self.items_first % self.items.length);
+          }
+          self.direction(-steps, function() { self.base.trigger("jRollover.nowVisible", [self.nowVisible(), self.items]); });
+          break;
+        }
+      }
+    })
     this.setup()
   }
 
@@ -112,7 +128,7 @@
         }
         this.base.fadeIn('fast')
       }
-      this.base.trigger("jRollover.ready", this.nowVisible())
+      this.base.trigger("jRollover.ready", [this.nowVisible(), this.items])
     }
 
   Rollover.prototype.nowVisible = function() {
@@ -134,9 +150,10 @@
     this.items[prev].css('left', left)
 //  console.log('Rollover.prev:click:'+prev+":"+left)
     this.items_first = prev 
+//console.log('Rollover.prev:this.items_first:', this.items_first)
     this.base.trigger("jRollover.Prev");
     var self = this;
-    this.direction(+1, function() { self.base.trigger("jRollover.nowVisible", self.nowVisible()); })
+    this.direction(+1, function() { self.base.trigger("jRollover.nowVisible", [self.nowVisible(), self.items]); })
   }
 
   Rollover.prototype.next = function() {
@@ -146,9 +163,10 @@
     this.items[next].css('left', left + 'px')
 //  console.log('Rollover.next:click:'+next+":"+this.last()+":"+left)
     this.items_first = (this.first()+1)%this.items.length
+//console.log('Rollover.next:this.items_first:', this.items_first)
     this.base.trigger("jRollover.Next");
     var self = this;
-    this.direction(-1, function() { self.base.trigger("jRollover.nowVisible", self.nowVisible()); }) 
+    this.direction(-1, function() { self.base.trigger("jRollover.nowVisible", [self.nowVisible(), self.items]); }) 
   }
 
   Rollover.prototype.direction = function(direction, completed) {
