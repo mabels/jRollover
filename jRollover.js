@@ -7,10 +7,10 @@
   var Rollover = function(node, option) {
     this.base = node
     this.option = {}
-	var tmpOption = option || {}
-	for(var i in tmpOption) {
-		this.option[i] = tmpOption[i]
-	}
+  	var tmpOption = option || {}
+  	for(var i in tmpOption) {
+  		this.option[i] = tmpOption[i]
+  	}
     this.option.$next = this.base.find(this.option.$next) || this.base.find('.next')
     this.option.$prev = this.base.find(this.option.$prev) || this.base.find('.prev')
     this.option.$frame this.option.$frame || this.base.find('.frame')
@@ -150,6 +150,10 @@
 
   Rollover.prototype.prev = function() {
     if (this.items.length <= this.visible_items) { return }
+    if (this.options.isGallery && this.first() <= 0) {
+      self.base.trigger("jRollover.reachedLeft") 
+      return
+    }
     var prev = ((this.first()+this.items.length)-1)%this.items.length
     var left = parseInt(this.items[this.first()].css('left'),10)-this.item_width
     this.items[prev].css('left', left)
@@ -161,6 +165,11 @@
 
   Rollover.prototype.next = function() {
     if (this.items.length <= this.visible_items) { return }
+    if (this.options.isGallery && this.first() + this.visible_items >= this.items.length) {
+      self.base.trigger("jRollover.reachedRight", ) 
+      return
+    }
+    
     var next = (this.first()+this.visible_items)%this.items.length
     var left = parseInt(this.items[this.last()].css('left'),10)+this.item_width
     this.items[next].css('left', left + 'px')
@@ -187,6 +196,15 @@
 
   $.fn.jRollover = function(option) {
     $(this).each(function() {
+      new Rollover($(this), option)
+    })
+    return this;
+  }
+
+  $.fn.jGallery = function(option) {
+    option.isGallery = true
+    $(this).each(function() {
+//console.log("create carousel on:", $(this));
       new Rollover($(this), option)
     })
     return this;
